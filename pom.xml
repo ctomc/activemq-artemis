@@ -270,14 +270,14 @@
          <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging-processor</artifactId>
-            <version>2.0.0.Alpha2</version>
+            <version>2.0.0.Final</version>
             <optional>true</optional>
             <!-- License: LGPL-->
          </dependency>
          <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging-annotations</artifactId>
-            <version>2.0.0.Alpha1</version>
+            <version>2.0.0.Final</version>
             <scope>provided</scope>
             <optional>true</optional>
             <!-- License: Apache 2.0-->
@@ -906,6 +906,34 @@
             <skipTests>true</skipTests>
          </properties>
       </profile>
+      <profile>
+              <id>jdk9</id>
+              <activation>
+                 <jdk>9</jdk>
+              </activation>
+              <properties>
+
+              </properties>
+              <build>
+                 <plugins>
+                    <plugin>
+                       <groupId>org.apache.maven.plugins</groupId>
+                       <artifactId>maven-compiler-plugin</artifactId>
+                       <version>3.5.1</version>
+                       <configuration>
+                          <compilerId>javac</compilerId>
+                          <!-- fork is needed so compiler args can be used -->
+                          <fork>true</fork>
+                          <compilerArgs>
+                             <arg>-J--add-modules</arg>
+                             <arg>-Jjava.annotations.common</arg>
+                          </compilerArgs>
+                       </configuration>
+                    </plugin>
+
+                 </plugins>
+              </build>
+           </profile>
    </profiles>
 
    <build>
@@ -994,20 +1022,20 @@
                <artifactId>maven-compiler-plugin</artifactId>
                <!-- version 3.2 is having problems with the APT processor resulting in
                     java.lang.IllegalStateException: endPosTable already set  -->
-               <version>3.1</version>
+               <version>3.5.1</version>
                <!-- Enable Google's Error-Prone https://github.com/google/error-prone -->
                <configuration>
                  <showWarnings>true</showWarnings>
                  <forceJavacCompilerUse>true</forceJavacCompilerUse>
                  <compilerId>${javac-compiler-id}</compilerId>
-                 <compilerArgs>
+                 <!--compilerArgs>
                     <arg>-Xep:MissingOverride:ERROR</arg>
                     <arg>-Xep:NonAtomicVolatileUpdate:ERROR</arg>
                     <arg>-Xep:SynchronizeOnNonFinalField:ERROR</arg>
                     <arg>-Xep:StaticAccessedFromInstance:ERROR</arg>
                     <arg>-Xep:SynchronizeOnNonFinalField:ERROR</arg>
                     <arg>-Xep:WaitNotInLoop:ERROR</arg>
-                 </compilerArgs>
+                 </compilerArgs-->
                </configuration>
                <dependencies>
                  <dependency>
@@ -1018,20 +1046,20 @@
                  <dependency>
                    <groupId>com.google.errorprone</groupId>
                    <artifactId>error_prone_core</artifactId>
-                   <version>2.0.9</version>
+                   <version>2.0.13</version>
                  </dependency>
                </dependencies>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-clean-plugin</artifactId>
-               <version>2.5</version>
+               <version>3.0.0</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-javadoc-plugin</artifactId>
 
-               <version>2.9</version>
+               <version>2.10.4</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
@@ -1041,7 +1069,7 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-jar-plugin</artifactId>
-               <version>2.4</version>
+               <version>3.0.2</version>
             </plugin>
             <plugin>
                <groupId>net.sf.maven-sar</groupId>
@@ -1056,7 +1084,7 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-shade-plugin</artifactId>
-               <version>2.1</version>
+               <version>2.4.3</version>
             </plugin>
             <plugin>
                <groupId>org.eclipse.jetty</groupId>
@@ -1066,14 +1094,14 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-deploy-plugin</artifactId>
-               <version>2.7</version>
+               <version>2.8.2</version>
             </plugin>
 
             <plugin>
                <inherited>true</inherited>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-source-plugin</artifactId>
-               <version>2.2.1</version>
+               <version>3.0.0</version>
                <executions>
                   <execution>
                      <id>attach-sources</id>
@@ -1103,7 +1131,7 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-install-plugin</artifactId>
-               <version>2.4</version>
+               <version>2.5.2</version>
                <configuration>
                   <createChecksum>true</createChecksum>
                </configuration>
@@ -1326,7 +1354,6 @@
 
       </plugins>
    </build>
-
    <reporting>
       <plugins>
          <plugin>
@@ -1364,7 +1391,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.9</version>
+            <version>2.10.4</version>
             <configuration>
                <minmemory>128m</minmemory>
                <maxmemory>1024m</maxmemory>
